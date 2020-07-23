@@ -1,0 +1,12 @@
+img.avatar{
+    height: 9vh;
+    width: 10vw;
+    min-width: 10vw;
+  }
+
+  .personal_info {
+      display: flex;
+      flex-direction: row;
+      align-content: flex-start;
+     
+  }

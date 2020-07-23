@@ -1,0 +1,13 @@
+.left_menu {
+    background-color: khaki;
+    margin: 10px;
+    padding: 10px;
+    width: 20vw;
+  }
+.item a {
+  color: olivedrab;
+  text-decoration: none;
+}
+.item a.active {
+  color: darkslategray;
+}

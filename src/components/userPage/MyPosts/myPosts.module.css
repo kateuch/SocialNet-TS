@@ -1,0 +1,18 @@
+
+textarea {
+  box-shadow:  0 0 10px lightgrey;
+  border-color: lightslategray;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-family: fantasy;
+}
+button {
+  color: beige;
+  font-weight: bold;
+  font-family: fantasy;
+  background-color: lightseagreen;
+  box-shadow:  0 0 10px lightgrey;
+  border-color: darkgray;
+  box-sizing: border-box;
+  border-radius: 5px;
+}

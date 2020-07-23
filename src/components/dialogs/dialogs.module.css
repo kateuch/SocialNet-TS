@@ -1,0 +1,12 @@
+.dialogs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+}
+.messages {
+    padding-left: 20px;
+}
+.dialog.active{
+    color: darkorange;
+}

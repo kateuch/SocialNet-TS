@@ -1,0 +1,15 @@
+header {
+    display: flex;
+    margin: auto;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    margin-top: 10px;
+    height: 70px;
+    width: 100vw;
+    background-color: lightgrey;
+  }
+  .logo {
+    height: 9vh;
+    width: 10vw;
+    min-width: 10vw;
+  }
