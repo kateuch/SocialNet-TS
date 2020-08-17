@@ -1,14 +1,12 @@
-// @ts-nocheck
 import React from 'react';
 import style from './user_page.module.css';
 import MyPosts from './MyPosts/myPosts';
 import UserInfo from './UserInfo/user_info';
-import { UserPageType } from '../../redux/state';
+import { UserPageType, ActionType } from '../../redux/state';
 
 type PropsType = {
     posts: UserPageType
-    addPost: () => void
-    changePostText: (text: string) => void,
+    dispatch: (action: ActionType) => void
 
 }
 

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import style from './App.module.css';
@@ -6,14 +5,12 @@ import Dialogs from './components/dialogs/dialogs';
 import Header from './components/header/header';
 import Menu from './components/menu/menu';
 import Profile from './components/userPage/user_page';
-import { StateType } from './redux/state';
+import { StateType, StoreType, ActionType } from './redux/state';
 
-export type PropsType = {
+type PropsType = {
+  store: StoreType
   state: StateType
-  addPost: () => void
-  addMessage: (message: string) => void
-  changePostText: (newPoste: string) => void
-
+  dispatch: (action: ActionType) => void
 }
 
 const App = (props: PropsType) => {
@@ -26,7 +23,7 @@ const App = (props: PropsType) => {
         <Route path="/user_page" render={() => <Profile
           posts={props.state.userPage} dispatch={props.dispatch} />} />
         <Route path="/dialogs" render={() => <Dialogs
-          addMessage={props.addMessage} dialogsPage={props.state.dialogsPage} />} />
+          dispatch={props.dispatch} store={props.store} />} />
       </div>
     </BrowserRouter>
   )

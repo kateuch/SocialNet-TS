@@ -1,33 +1,35 @@
+
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import style from './dialogs.module.css';
-import { v1 } from 'uuid';
 import DialogItem from './dialogsItem/dialogsItem';
 import MessageItem from './messageItem/messageItem';
-import {DialogsPageType} from '../../redux/state';
-
+import {DialogsPageType, addMessageActionCreator, newMessageActionCreator, StoreType, ActionType} from '../../redux/state';
 
 type PropsType = {
-    dialogsPage: DialogsPageType
-    addMessage: (message: string) => void
+    store: StoreType
+    dispatch: (action: ActionType) => void
 }
 
 const newMessageElement = React.createRef<HTMLTextAreaElement>();
 
 
-export default function Dialogs(props:PropsType) {
+export default function Dialogs(props: PropsType) {
+     let state = props.store.getState().dialogsPage
 
-    let dialogsElement = props.dialogsPage.dialogs.map(dialog => <DialogItem id={dialog.id} name={dialog.name} /> );
+    let dialogsElement = state.dialogs.map(dialog => <DialogItem id={dialog.id} name={dialog.name} /> );
  
-    let messagesElement = props.dialogsPage.messages.map(message => <MessageItem id={message.id} message={message.message} /> );
+    let messagesElement = state.messages.map(message => <MessageItem id={message.id} message={message.message} /> );
 
-    function onAddMessage () {
-        let message = newMessageElement.current?.value
+    function onAddMessage() { props.dispatch(addMessageActionCreator())};
+
+    function onMessageType (e: React.ChangeEvent<HTMLTextAreaElement>) {
+        let message = e.currentTarget?.value;
         if (message) {
-            props.addMessage(message)
-            newMessageElement.current!.value = props.dialogsPage.newMessage
+            let action = newMessageActionCreator(message)
+            props.store.dispatch(action);
+            // e.currentTarget!.value = props.dialogsPage.newMessage
         }
-    }
+    };
 
     return (
         <div className={style.dialogs}>
@@ -37,7 +39,9 @@ export default function Dialogs(props:PropsType) {
             <div className={style.messages}>
                 { messagesElement }
               </div>
-              <textarea placeholder="What's up" ref={newMessageElement}></textarea>
+              <textarea placeholder="What's up" 
+                        value={state.newMessage} 
+                        onChange={onMessageType}></textarea>
                 <button onClick={onAddMessage}>Send</button>
 
         </div>

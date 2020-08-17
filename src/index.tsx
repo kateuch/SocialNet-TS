@@ -1,15 +1,14 @@
-// @ts-nocheck
-import { store, StoreType, StateType } from './redux/state';
+import { store, StateType } from './redux/state';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
 import App from './App';
 
 
-export function rerenderEntireTree(state: StateType) {
+export const rerenderEntireTree = (state: StateType) => {
     ReactDOM.render(
         <BrowserRouter>
-            <App state={state} dispatch={store.dispatch.bind(store)} />
+            <App state={state} dispatch={store.dispatch.bind(store)} store={store} />
         </BrowserRouter>,
         document.getElementById('root')
     );
