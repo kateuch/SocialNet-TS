@@ -1,4 +1,4 @@
-import { store, StateType } from './redux/state';
+import { store, StateType } from './redux/store';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import React from 'react';

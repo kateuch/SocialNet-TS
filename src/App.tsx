@@ -5,7 +5,7 @@ import Dialogs from './components/dialogs/dialogs';
 import Header from './components/header/header';
 import Menu from './components/menu/menu';
 import Profile from './components/userPage/user_page';
-import { StateType, StoreType, ActionType } from './redux/state';
+import { StateType, StoreType, ActionType } from './redux/store';
 
 type PropsType = {
   store: StoreType

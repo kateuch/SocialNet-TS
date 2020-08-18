@@ -2,7 +2,7 @@ import React from 'react';
 import style from './user_page.module.css';
 import MyPosts from './MyPosts/myPosts';
 import UserInfo from './UserInfo/user_info';
-import { UserPageType, ActionType } from '../../redux/state';
+import { UserPageType, ActionType } from '../../redux/store';
 
 type PropsType = {
     posts: UserPageType

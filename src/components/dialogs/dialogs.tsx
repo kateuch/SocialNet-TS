@@ -1,9 +1,10 @@
 
 import React from 'react';
+import { ActionType, StoreType } from '../../redux/store';
 import style from './dialogs.module.css';
 import DialogItem from './dialogsItem/dialogsItem';
 import MessageItem from './messageItem/messageItem';
-import {DialogsPageType, addMessageActionCreator, newMessageActionCreator, StoreType, ActionType} from '../../redux/state';
+import { addMessageActionCreator, newMessageActionCreator } from '../../redux/dialog_reducer';
 
 type PropsType = {
     store: StoreType
