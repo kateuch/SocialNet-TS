@@ -1,36 +1,51 @@
-import { PostType, ActionType, UserPageType } from "./store";
+//@ts-nocheck
+import { PostType, profilePageType, ActionsTypes } from "./store";
 import { v1 } from "uuid";
 
 const ADD_POST = 'ADD-POST';
 const NEW_POST_TEXT = 'NEW-POST-TEXT';
 
-const profile_reducer = (state: UserPageType, action: ActionType) => {
+let initialState = {
+    posts: [
+        { id: v1(), message: 'Salute! 🖖', likeCount: '17' },
+        { id: v1(), message: 'Bye-bye 🎃', likeCount: '20' }
+    ],
+    newPostText: ""
+}
+
+const profile_reducer = (state: profilePageType = initialState, action: ActionsTypes): profilePageType => {
     switch (action.type) {
-        case ADD_POST:
-            let newPost: PostType = {
+        case ADD_POST: 
+            let newPost = {
                 id: v1(),
                 message: state.newPostText,
                 likeCount: "0"
             };
-            state.posts.push(newPost);
-            state.newPostText = '';
-            return state;
-        case NEW_POST_TEXT:
-            state.newPostText = action.post;
-            console.log(state.newPostText)
-            return state;
+            return {
+            ...state,
+            posts:[...state.posts, newPost],
+            newPostText: ""
+        }
+        case NEW_POST_TEXT: 
+        return {
+            ...state,
+            newPostText: action.post
+        }
         default:
             return state;
     }
 }
 
 export type AddPostActionType = {
-    type: typeof ADD_POST
+    type: string
 };
 export type NewPostActionType = {
-    type: typeof NEW_POST_TEXT
+    type: string
     post: string
 };
+
+export type addPostActionCreatorType = typeof addPostActionCreator;
+export type newPostActionCreatorType = typeof newPostActionCreator;
 
 export const addPostActionCreator = (): AddPostActionType => ({ type: ADD_POST});
 export const newPostActionCreator = (text:string): NewPostActionType => ({ type: NEW_POST_TEXT, post:text});

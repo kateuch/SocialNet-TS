@@ -6,7 +6,7 @@ const Menu: React.FC<any> = () => {
   return (
     <nav className={style.left_menu}>
       <div className={style.item}>
-        <NavLink to='/user_page' activeClassName={style.active}>Profile</NavLink>
+        <NavLink to='/profile_page' activeClassName={style.active}>Profile</NavLink>
             </div>
       <div className={style.item}>
         <NavLink to='/dialogs' activeClassName={style.active}>Messages</NavLink>
@@ -16,6 +16,9 @@ const Menu: React.FC<any> = () => {
       </div>
       <div className={style.item}>
         <NavLink to='/news'activeClassName={style.active}>News</NavLink>
+      </div>
+      <div className={style.item}>
+        <NavLink to='/users'activeClassName={style.active}>People</NavLink>
       </div>
     </nav>
   )
