@@ -8,12 +8,14 @@ const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_TOTAL_COUNT = 'SET-TOTAL-COUNT';
 const SET_CUR_PAGE = 'SET-CUR-PAGE';
+const SET_INPROGRESS = 'SET-INPROGRESS';
 
 let initialState = {
     users: [],
     pageSize: 7,
     totalCount: 20,
-    currentPage: 1
+    currentPage: 1,
+    inProgress: false
 };
 
 const users_reduser = (state = initialState, action) => {
@@ -56,6 +58,11 @@ const users_reduser = (state = initialState, action) => {
                     ...state,
                     currentPage: action.pageNumber
                 };
+                case SET_INPROGRESS:
+                    return {
+                        ...state,
+                        inProgress: action.inProgress
+                    };
 
         default:
             return state;
@@ -67,6 +74,7 @@ export const followAC = (userID) => ({ type: FOLLOW, userID });
 export const unfollowAC = (userID) => ({ type: UNFOLLOW, userID });
 export const totalCountAC = (totalCount) => ({type: SET_TOTAL_COUNT, totalCount });
 export const currentPageAC = (pageNumber) => ({type: SET_CUR_PAGE, pageNumber });
+export const toggleInProgressAC = (inProgress) => ({type: SET_INPROGRESS, inProgress });
 
 export default users_reduser;
 

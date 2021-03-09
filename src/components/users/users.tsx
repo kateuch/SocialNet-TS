@@ -1,6 +1,7 @@
 //@ts-nocheck
 import axios from 'axios';
 import React from 'react';
+import Preloader from '../utils/preloader';
 import userPhoto from './../pics/small.jpg';
 import style from './users.module.css';
 
