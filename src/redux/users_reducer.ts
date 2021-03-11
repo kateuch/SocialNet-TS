@@ -1,7 +1,5 @@
 
 //@ts-nocheck
-import React from 'react';
-import { v1 } from "uuid";
 
 const SET_USERS = 'SET_USERS';
 const FOLLOW = 'FOLLOW';
@@ -69,12 +67,12 @@ const users_reduser = (state = initialState, action) => {
     }
 }
 
-export const setUsersAC = (users) => ({ type: SET_USERS, users });
-export const followAC = (userID) => ({ type: FOLLOW, userID });
-export const unfollowAC = (userID) => ({ type: UNFOLLOW, userID });
-export const totalCountAC = (totalCount) => ({type: SET_TOTAL_COUNT, totalCount });
-export const currentPageAC = (pageNumber) => ({type: SET_CUR_PAGE, pageNumber });
-export const toggleInProgressAC = (inProgress) => ({type: SET_INPROGRESS, inProgress });
+export const setUsers = (users) => ({ type: SET_USERS, users });
+export const follow = (userID) => ({ type: FOLLOW, userID });
+export const unfollow = (userID) => ({ type: UNFOLLOW, userID });
+export const setTotalCount = (totalCount) => ({type: SET_TOTAL_COUNT, totalCount });
+export const setCurrentPage = (pageNumber) => ({type: SET_CUR_PAGE, pageNumber });
+export const toggleInProgress = (inProgress) => ({type: SET_INPROGRESS, inProgress });
 
 export default users_reduser;
 

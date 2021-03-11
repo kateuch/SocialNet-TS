@@ -1,5 +1,5 @@
 import React from 'react';
-import preloader from './../pics/balls.gif';
+import preloader from './../pics/balls.svg';
 
 const Preloader = (props) => {
     return <div className='Preloader'>

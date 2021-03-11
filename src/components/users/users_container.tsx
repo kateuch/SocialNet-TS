@@ -2,9 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Users from './users';
-import { currentPageAC, followAC, totalCountAC, toggleInProgressAC } from './../../redux/users_reducer';
-import { unfollowAC } from './../../redux/users_reducer';
-import { setUsersAC } from './../../redux/users_reducer';
+import { setCurrentPage, follow, unfollow, setTotalCount, toggleInProgress, setUsers } from './../../redux/users_reducer';
 import axios from 'axios';
 import Preloader from '../utils/preloader'
 
@@ -60,28 +58,8 @@ let mapStateToProps = (state) => {
 	}
 };
 
-let mapDispatchToProps = (dispatch) => {
-	return {
-		setUsers: (users) => {
-			dispatch(setUsersAC(users))
-		},
-		follow: (userID) => {
-			dispatch(followAC(userID));
-		},
-		unfollow: (userID) => {
-			dispatch(unfollowAC(userID));
-		},
-		setCurrentPage: (pageNumber) => {
-			dispatch(currentPageAC(pageNumber))
-		},
-		setTotalCount: (count) => {
-			dispatch(totalCountAC(count))
-		},
-		toggleInProgress: (inProgress) => {
-			dispatch(toggleInProgressAC(inProgress))
-		},
-	}
-};
-const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UserContainer);
+
+const UsersContainer = connect(mapStateToProps,
+	{setUsers, follow, unfollow, setCurrentPage, setTotalCount, toggleInProgress} )(UserContainer);
 
 export default UsersContainer;

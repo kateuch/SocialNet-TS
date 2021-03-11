@@ -1,14 +1,24 @@
+//@ts-nocheck
 import React from 'react';
+import Preloader from '../../utils/preloader';
 import style from './profile_info.module.css';
+import image from '../../pics/image.jpg'
 
 
-const UserInfo = () => {
+const UserInfo = (props) => {
+
+    if (!props.profile ) {
+    return <Preloader />
+    }
     return (
         <div className={style.personal_info}>
             <section>
-                <img className={style.avatar} src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ6BRp1P7M364mlqSmn4mwrYi1oetTrgZnRdXl64pvyOfwgjh7o&usqp=CAU" /></section>
-                <section>User information</section>
-                 
+                <img className={style.avatar} src={props.profile.photos.large || image }/></section>
+                <section>
+                    <div>{props.profile.name || "No name"}</div>
+                    <div>{props.profile.aboutMe || "No status"}</div>
+                    </section>
+
         </div>
     )
 };

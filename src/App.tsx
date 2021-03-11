@@ -1,16 +1,13 @@
 
 //@ts-nocheck
 import React from 'react';
-import { Route, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import style from './App.module.css';
+import DialogsContainer from './components/dialogs/dialogs_Container';
 import Header from './components/header/header';
 import Menu from './components/menu/menu';
-import Profile from './components/profilePage/profile_page';
 import UsersContainer from './components/users/users_container';
-import { RootStateType } from './redux/redux_store';
-import { ActionsTypes } from './redux/store';
-import DialogsContainer from './components/dialogs/dialogs_Container';
-
+import ProfileContainer from './components/profilePage/profile_container';
 
 
 
@@ -21,7 +18,7 @@ const App = () => {
       <div className={style.page}>
         <div><Header /></div>
         <Menu />
-        <Route path="/profile_page" render={() => <Profile/>} />
+        <Route path="/profile" render={() => <ProfileContainer/>} />
         <Route path="/dialogs" render={() =>  <DialogsContainer/>} />
         <Route path="/users" render={() =>  <UsersContainer/>} />
       </div>

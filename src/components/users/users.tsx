@@ -1,9 +1,8 @@
-//@ts-nocheck
-import axios from 'axios';
+// @ts-nocheck
 import React from 'react';
-import Preloader from '../utils/preloader';
 import userPhoto from './../pics/small.jpg';
 import style from './users.module.css';
+import { NavLink } from 'react-router-dom';
 
 let Users = (props) => {
 
@@ -25,9 +24,9 @@ let Users = (props) => {
 			<div>
 				{
 					props.users.map(u => <div key={u.id}>
-						<div>
+						<NavLink to={'/profile/' + u.id}>
 							<img src={u.photos.small ? u.photos.small : userPhoto} />
-						</div>
+						</NavLink>
 						<div>
 							<div>{u.name}</div><p />
 							<div>{u.status ? u.status : "hi, everyone!"}</div>
