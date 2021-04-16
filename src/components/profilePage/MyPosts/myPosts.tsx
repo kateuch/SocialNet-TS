@@ -1,16 +1,19 @@
-//@ts-nocheck
+
 import React, { ChangeEvent } from 'react';
+import { PostType, ActionsTypes } from '../../../redux/profile_reducer';
 import style from './myPosts.module.css';
 import Posts from './post/posts';
-import { profilePageType, ActionsTypes, PostType } from '../../../redux/store';
+
 
 type PropsType = {
-    posts: Array<PostType>
-    dispatch: (action: ActionsTypes) => void
+    posts: Array<PostType>,
+    newPostText? : string,
+    addPost: () => void,
+    changeNewPostText: (text:string) => void
 }
 const newPostElement = React.createRef<HTMLTextAreaElement>();
 
-export default function MyPosts(props) {
+export default function MyPosts(props: PropsType ) {
 
     function onAddPost() {
         props.addPost();
@@ -23,13 +26,15 @@ export default function MyPosts(props) {
         }
     };
 
-    let postsElement = props.profilePage.posts.map(post =>
-        <Posts id={post.id} message={post.message} likeCount={post.likeCount} />)
-  
+    let postsElement = props.posts.map(post =>
+        <Posts id={post.id}
+            message={post.message}
+            likeCount={post.likeCount} />)
+
         return (
         <div>
             <div>
-                <textarea placeholder="What's up" ref={newPostElement} value={props.profilePage.newPostText} onChange={onPostChange} ></textarea>
+                <textarea placeholder="What's up" ref={newPostElement} value={props.newPostText} onChange={onPostChange} ></textarea>
                 <button onClick={onAddPost}>Send</button>
             </div>
             <div className={style.mypost}>My posts</div>

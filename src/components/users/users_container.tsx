@@ -1,13 +1,15 @@
-//@ts-nocheck
+
 import React from 'react';
 import { connect } from 'react-redux';
 import Users from './users';
-import { setCurrentPage, follow, unfollow, setTotalCount, toggleInProgress, setUsers } from './../../redux/users_reducer';
+import { setCurrentPage, follow, unfollow, setTotalCount, toggleInProgress, setUsers, UsersPageType, UserType } from './../../redux/users_reducer';
 import axios from 'axios';
 import Preloader from '../utils/preloader'
+import { RootStateType } from '../../redux/redux_store';
+import { RouteComponentProps } from 'react-router-dom';
 
 
-class UserContainer extends React.Component {
+class UserContainer extends React.Component<UsersPropsType> {
 
 	componentDidMount() {
 		this.props.toggleInProgress(true);
@@ -19,7 +21,7 @@ class UserContainer extends React.Component {
 		)
 	}
 
-	onPageChanged = (p) => {
+	onPageChanged = (p: number) => {
 		this.props.setCurrentPage(p);
 		this.props.toggleInProgress(true);
 		axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${p}&count=${this.props.pageSize}`)
@@ -48,7 +50,7 @@ class UserContainer extends React.Component {
 
 }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: RootStateType): MapStatePropsType  => {
 	return {
 		users: state.usersPage.users,
 		pageSize: state.usersPage.pageSize,
@@ -63,3 +65,25 @@ const UsersContainer = connect(mapStateToProps,
 	{setUsers, follow, unfollow, setCurrentPage, setTotalCount, toggleInProgress} )(UserContainer);
 
 export default UsersContainer;
+
+//types
+
+type MapStatePropsType = {
+	users: Array<UserType>,
+	pageSize: number,
+	totalCount: number,
+	currentPage: number,
+	inProgress: boolean
+}
+
+type MapDispatchPropsType = {
+	follow: (userId: string) => void,
+    unfollow: (userId: string) => void,
+	setUsers: (users: Array<UserType>) => void,
+	setCurrentPage: (page: number) => void,
+	setTotalCount: (count: number) => void,
+	toggleInProgress: (status: boolean) => void
+};
+type UsersPropsType = MapStatePropsType & MapDispatchPropsType;
+
+// type RootPropsType = RouteComponentProps & UsersPropsType;

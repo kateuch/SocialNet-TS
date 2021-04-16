@@ -8,6 +8,7 @@ import Header from './components/header/header';
 import Menu from './components/menu/menu';
 import UsersContainer from './components/users/users_container';
 import ProfileContainer from './components/profilePage/profile_container';
+import HeaderContainer from './components/header/header_container';
 
 
 
@@ -16,9 +17,9 @@ const App = () => {
   return (
     <BrowserRouter>
       <div className={style.page}>
-        <div><Header /></div>
+        <div><HeaderContainer /></div>
         <Menu />
-        <Route path="/profile" render={() => <ProfileContainer/>} />
+        <Route path="/profile/:userId?" render={() => <ProfileContainer/>} />
         <Route path="/dialogs" render={() =>  <DialogsContainer/>} />
         <Route path="/users" render={() =>  <UsersContainer/>} />
       </div>

@@ -1,5 +1,4 @@
-//@ts-nocheck
-import { MessageItemType, DialogsPageType, ActionsTypes } from "./store";
+
 import { v1 } from "uuid";
 
 const NEW_MESSAGE = 'NEW-MESSAGE';
@@ -29,7 +28,7 @@ export const dialogs_reducer = (state: DialogsPageType = initialState, action: A
         case NEW_MESSAGE:
             return {
                 ...state,
-                newMessage: action.text
+                newMessage: action.messageText
             }
         case ADD_MESSAGE:
             let newTextMessage: MessageItemType = {
@@ -46,6 +45,9 @@ export const dialogs_reducer = (state: DialogsPageType = initialState, action: A
     }
 }
 
+//types
+export type ActionsTypes = NewMessageActionType | AddMessageActionType
+
 export type NewMessageActionType = {
     type: typeof NEW_MESSAGE
     messageText: string
@@ -54,10 +56,25 @@ export type AddMessageActionType = {
     type: typeof ADD_MESSAGE
 };
 
-export type addMessageActionCreatorType = typeof addMessageActionCreator;
-export type newMessageActionCreatorType = typeof newMessageActionCreator;
+export type addMessageActionCreatorType = typeof addMessage;
+export type newMessageActionCreatorType = typeof newMessage;
 
-export const addMessageActionCreator = () => ({ type: ADD_MESSAGE });
-export const newMessageActionCreator = (message: string) => ({ type: NEW_MESSAGE, text: message });
+export const addMessage = () => ({ type: ADD_MESSAGE });
+export const newMessage = (message: string) => ({ type: NEW_MESSAGE, text: message });
 
 export default dialogs_reducer;
+
+//types
+export type DialogItemType = {
+    id: string
+    name: string
+};
+export type MessageItemType = {
+    id: string
+    message: string
+};
+export type DialogsPageType = {
+    dialogs: Array<DialogItemType>
+    messages: Array<MessageItemType>
+    newMessage: string
+};

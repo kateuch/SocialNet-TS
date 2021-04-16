@@ -1,34 +1,8 @@
-import { AddPostActionType, NewPostActionType, addPostActionCreatorType } from './profile_reducer';
+import { AddPostActionType, NewPostActionType } from './profile_reducer';
 import {NewMessageActionType, AddMessageActionType} from './dialog_reducer';
 
-export type DialogItemType = {
-    id: string
-    name: string
-};
-export type MessageItemType = {
-    id: string
-    message: string
-};
-export type PostType = {
-    id: string
-    message: string
-    likeCount: string
-};
-export type profilePageType = {
-    posts: Array<PostType>
-    newPostText: string
-};
-export type DialogsPageType = {
-    dialogs: Array<DialogItemType>
-    messages: Array<MessageItemType>
-    newMessage: string
-};
-type StateType = {
-    profilePage: profilePageType
-    dialogsPage: DialogsPageType
-};
 
-export type  ActionsTypes = AddPostActionType | NewPostActionType | NewMessageActionType | AddMessageActionType;
+// export type  ActionsTypes = AddPostActionType | NewPostActionType | NewMessageActionType | AddMessageActionType ;
 
 // export type  ActionsTypes = addPostActionCreatorType | newPostActionCreatorType | newMessageActionCreatorType | addMessageActionCreatorType
 
