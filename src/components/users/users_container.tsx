@@ -6,14 +6,15 @@ import { setCurrentPage, follow, unfollow, setTotalCount, toggleInProgress, setU
 import axios from 'axios';
 import Preloader from '../utils/preloader'
 import { RootStateType } from '../../redux/redux_store';
-import { RouteComponentProps } from 'react-router-dom';
 
 
 class UserContainer extends React.Component<UsersPropsType> {
 
 	componentDidMount() {
 		this.props.toggleInProgress(true);
-		axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(response => {
+		axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
+			withCredentials: true
+		}).then(response => {
 			this.props.toggleInProgress(false);
 			this.props.setUsers(response.data.items);
 			this.props.setTotalCount(response.data.totalCount)
@@ -24,7 +25,9 @@ class UserContainer extends React.Component<UsersPropsType> {
 	onPageChanged = (p: number) => {
 		this.props.setCurrentPage(p);
 		this.props.toggleInProgress(true);
-		axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${p}&count=${this.props.pageSize}`)
+		axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${p}&count=${this.props.pageSize}`, {
+			withCredentials: true
+		})
 			.then(response => {
 				this.props.toggleInProgress(false);
 				this.props.setUsers(response.data.items);
@@ -42,7 +45,8 @@ class UserContainer extends React.Component<UsersPropsType> {
 					pageSize={this.props.pageSize}
 					onPageChanged={this.onPageChanged}
 					unfollow={this.props.unfollow}
-					follow={this.props.follow} />
+					follow={this.props.follow}
+					inProgress={this.props.inProgress}/>
 				}
 			</>
 		)

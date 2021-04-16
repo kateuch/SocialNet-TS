@@ -26,7 +26,7 @@ const users_reduser = (state: UsersPageType = initialState, action: ActionsTypes
                 ...state,
                 users: state.users.map(u => {
                     if (u.id === action.userID) {
-                        return { ...u, follow: true }
+                        return { ...u, followed: true }
                     }
                     return u;
                 })
@@ -37,7 +37,7 @@ const users_reduser = (state: UsersPageType = initialState, action: ActionsTypes
                 ...state,
                 users: state.users.map(u => {
                     if (u.id === action.userID) {
-                        return { ...u, follow: false }
+                        return { ...u, followed: false }
                     }
                     return u;
                 })
@@ -82,6 +82,7 @@ photoUrl: string,
 followed: boolean,
 fullName: string,
 status: string,
+photos: { small: string | null,  large: string | null }
 }
 
 export type UsersType = {
