@@ -2,22 +2,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Users from './users';
-import { setCurrentPage, follow, unfollow, setTotalCount, toggleInProgress, setUsers, UsersPageType, UserType } from './../../redux/users_reducer';
-import axios from 'axios';
+import { setCurrentPage, follow, unfollow, setTotalCount, toggleInProgress, setUsers, UserType } from './../../redux/users_reducer';
 import Preloader from '../utils/preloader'
 import { RootStateType } from '../../redux/redux_store';
+import { getUsers } from '../api/api';
 
 
 class UserContainer extends React.Component<UsersPropsType> {
 
 	componentDidMount() {
 		this.props.toggleInProgress(true);
-		axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
-			withCredentials: true
-		}).then(response => {
+		getUsers(this.props.currentPage , this.props.pageSize ).then(data => {
 			this.props.toggleInProgress(false);
-			this.props.setUsers(response.data.items);
-			this.props.setTotalCount(response.data.totalCount)
+			this.props.setUsers(data.items);
+			this.props.setTotalCount(data.totalCount)
 		}
 		)
 	}
@@ -25,12 +23,10 @@ class UserContainer extends React.Component<UsersPropsType> {
 	onPageChanged = (p: number) => {
 		this.props.setCurrentPage(p);
 		this.props.toggleInProgress(true);
-		axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${p}&count=${this.props.pageSize}`, {
-			withCredentials: true
-		})
-			.then(response => {
+		getUsers(p, this.props.pageSize)
+			.then(data => {
 				this.props.toggleInProgress(false);
-				this.props.setUsers(response.data.items);
+				this.props.setUsers(data.items);
 			})
 	}
 
@@ -89,5 +85,9 @@ type MapDispatchPropsType = {
 	toggleInProgress: (status: boolean) => void
 };
 type UsersPropsType = MapStatePropsType & MapDispatchPropsType;
+
+type ResponseDataType = {
+
+}
 
 // type RootPropsType = RouteComponentProps & UsersPropsType;

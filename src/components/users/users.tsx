@@ -5,6 +5,7 @@ import style from './users.module.css';
 import { NavLink } from 'react-router-dom';
 import { UserType } from '../../redux/users_reducer';
 import axios from 'axios';
+import { followUser, unfollowUser } from '../api/api';
 
 let Users = (props: PropsType) => {
 
@@ -17,7 +18,7 @@ let Users = (props: PropsType) => {
 
 	return (
 		<>
-		   <div className={style.pages}>
+			<div className={style.pages}>
 				{page.map((p) => {
 					return <nav className={props.currentPage === p ? style.selected : ''}
 						onClick={() => props.onPageChanged(p)}>{p}</nav>
@@ -37,24 +38,13 @@ let Users = (props: PropsType) => {
 						</div>
 						<div>{u.followed
 							? <button onClick={() => {
-								axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {withCredentials: true,
-							headers: {
-								'API-KEY': '521c56f3-3091-4723-871a-57ee7f57ec6d'
-							}})
-			.then(response => {
-				if(response.data.resultCode===0) {
-							props.unfollow(u.id) }}
-							)
-						}}>Unfollow</button>
+								unfollowUser(u.id).then(() =>
+									props.unfollow(u.id))
+							}}>Unfollow</button>
+
 							: <button onClick={() => {
-								axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {withCredentials: true,
-								headers: {
-									'API-KEY': '521c56f3-3091-4723-871a-57ee7f57ec6d'
-								}})
-								.then(response => {
-									if(response.data.resultCode===0) {
-									props.follow(u.id) }
-								})
+								followUser(u.id).then(() =>
+									props.follow(u.id))
 							}}>Follow</button>
 						}
 						</div>
@@ -63,7 +53,7 @@ let Users = (props: PropsType) => {
 			</div>
 
 		</>
-		)
+	)
 }
 
 export default Users;
@@ -78,5 +68,5 @@ type PropsType = {
 	inProgress: boolean,
 	onPageChanged: (p: number) => void,
 	follow: (userId: string) => void,
-    unfollow: (userId: string) => void,
+	unfollow: (userId: string) => void,
 }
