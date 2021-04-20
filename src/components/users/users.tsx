@@ -4,7 +4,6 @@ import userPhoto from './../pics/small.jpg';
 import style from './users.module.css';
 import { NavLink } from 'react-router-dom';
 import { UserType } from '../../redux/users_reducer';
-import axios from 'axios';
 import { followUser, unfollowUser } from '../api/api';
 
 let Users = (props: PropsType) => {
@@ -37,14 +36,18 @@ let Users = (props: PropsType) => {
 							<div>{"u.localcountry"}</div>
 						</div>
 						<div>{u.followed
-							? <button onClick={() => {
-								unfollowUser(u.id).then(() =>
-									props.unfollow(u.id))
+							? <button disabled={props.buttonDisabling.some((id: string) => id === u.id)} onClick={() => {
+								props.toggleButtonDisabling(true, u.id)
+								unfollowUser(u.id).then(() => {
+									props.unfollow(u.id);
+									props.toggleButtonDisabling(false, u.id)});
 							}}>Unfollow</button>
 
-							: <button onClick={() => {
-								followUser(u.id).then(() =>
-									props.follow(u.id))
+							: <button disabled={props.buttonDisabling.some((id: string) => id === u.id)} onClick={() => {
+								props.toggleButtonDisabling(true, u.id)
+								followUser(u.id).then(() => {
+									props.follow(u.id);
+									props.toggleButtonDisabling(false, u.id)});
 							}}>Follow</button>
 						}
 						</div>
@@ -66,6 +69,8 @@ type PropsType = {
 	totalCount: number,
 	currentPage: number,
 	inProgress: boolean,
+	buttonDisabling: Array<string>,
+	toggleButtonDisabling: (status:boolean, userId: string) => void,
 	onPageChanged: (p: number) => void,
 	follow: (userId: string) => void,
 	unfollow: (userId: string) => void,

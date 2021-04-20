@@ -4,7 +4,7 @@ import axios from "axios";
 const instance = axios.create({
     withCredentials: true,
     headers: {
-        'API-KEY': '521c56f3-3091-4723-871a-57ee7f57ec6d'
+        "API-KEY": "521c56f3-3091-4723-871a-57ee7f57ec6d"
     },
     baseURL: 'https://social-network.samuraijs.com/api/1.0/'
 })
@@ -26,15 +26,15 @@ export const getAuthMe = () => instance.get(`auth/me`)
 export const followUser = (id: string) => instance.post(`follow/${id}`)
     .then(response => {
         if (response.data.resultCode === 0) {
-            return id
-        } else return response.data.messages
+            return response.data.data.id
+        }
     });
 
     export const unfollowUser = (id: string) => instance.delete(`follow/${id}`)
     .then(response => {
         if (response.data.resultCode === 0) {
-            return id
-        } else return response.data.messages
+            return response.data.data.id
+        }
     });
 
 

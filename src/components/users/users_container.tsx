@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Users from './users';
-import { setCurrentPage, follow, unfollow, setTotalCount, toggleInProgress, setUsers, UserType } from './../../redux/users_reducer';
+import { setCurrentPage, follow, unfollow, setTotalCount, toggleInProgress, setUsers, UserType, toggleButtonDisabling } from './../../redux/users_reducer';
 import Preloader from '../utils/preloader'
 import { RootStateType } from '../../redux/redux_store';
 import { getUsers } from '../api/api';
@@ -12,8 +12,10 @@ class UserContainer extends React.Component<UsersPropsType> {
 
 	componentDidMount() {
 		this.props.toggleInProgress(true);
+
 		getUsers(this.props.currentPage , this.props.pageSize ).then(data => {
 			this.props.toggleInProgress(false);
+
 			this.props.setUsers(data.items);
 			this.props.setTotalCount(data.totalCount)
 		}
@@ -30,6 +32,10 @@ class UserContainer extends React.Component<UsersPropsType> {
 			})
 	}
 
+	// toggleButtonDisabling = (status:boolean) => {
+	// 	this.props.toggleButtonDisabling(status);
+	// }
+
 	render() {
 
 		return (
@@ -42,7 +48,10 @@ class UserContainer extends React.Component<UsersPropsType> {
 					onPageChanged={this.onPageChanged}
 					unfollow={this.props.unfollow}
 					follow={this.props.follow}
-					inProgress={this.props.inProgress}/>
+					inProgress={this.props.inProgress}
+					buttonDisabling={this.props.buttonDisabling}
+					toggleButtonDisabling={this.props.toggleButtonDisabling}
+					/>
 				}
 			</>
 		)
@@ -56,13 +65,14 @@ let mapStateToProps = (state: RootStateType): MapStatePropsType  => {
 		pageSize: state.usersPage.pageSize,
 		totalCount: state.usersPage.totalCount,
 		currentPage: state.usersPage.currentPage,
-		inProgress: state.usersPage.inProgress
+		inProgress: state.usersPage.inProgress,
+		buttonDisabling: state.usersPage.buttonDisabling
 	}
 };
 
 
 const UsersContainer = connect(mapStateToProps,
-	{setUsers, follow, unfollow, setCurrentPage, setTotalCount, toggleInProgress} )(UserContainer);
+	{setUsers, follow, unfollow, setCurrentPage, setTotalCount, toggleInProgress, toggleButtonDisabling} )(UserContainer);
 
 export default UsersContainer;
 
@@ -73,7 +83,8 @@ type MapStatePropsType = {
 	pageSize: number,
 	totalCount: number,
 	currentPage: number,
-	inProgress: boolean
+	inProgress: boolean,
+	buttonDisabling: Array<string>
 }
 
 type MapDispatchPropsType = {
@@ -82,12 +93,10 @@ type MapDispatchPropsType = {
 	setUsers: (users: Array<UserType>) => void,
 	setCurrentPage: (page: number) => void,
 	setTotalCount: (count: number) => void,
-	toggleInProgress: (status: boolean) => void
+	toggleInProgress: (status: boolean) => void,
+	toggleButtonDisabling: (status: boolean, userId: string) => void,
 };
 type UsersPropsType = MapStatePropsType & MapDispatchPropsType;
 
-type ResponseDataType = {
-
-}
 
 // type RootPropsType = RouteComponentProps & UsersPropsType;
