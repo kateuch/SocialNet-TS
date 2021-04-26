@@ -1,5 +1,7 @@
 
+import axios from "axios";
 import { v1 } from "uuid";
+import { userAPI } from "../components/api/api";
 
 const ADD_POST = 'ADD-POST';
 const NEW_POST_TEXT = 'NEW-POST-TEXT';
@@ -45,6 +47,12 @@ const profile_reducer = (state: profilePageType = initialState, action: ActionsT
 export const addPost = (): AddPostActionType => ({ type: ADD_POST });
 export const newPost = (text: string): NewPostActionType => ({ type: NEW_POST_TEXT, post: text } as const);
 export const setProfile = (profile: ProfileType): setProfileActionType => ({ type: SET_USERPROFILE, profile });
+//@ts-ignore
+export const getUserProfile = (userId: string) => (dispatch: Dispatch) => {
+    userAPI.getProfile(userId).then(data => {
+        dispatch(setProfile(data));
+    })
+};
 
 export default profile_reducer;
 
@@ -68,7 +76,7 @@ export type ProfileType = {
     lookingForAJobDescription: string
     fullName: string
     userId: number
-    photos: null |  { small: string,  large: string   }
+    photos: null | { small: string, large: string }
 }
 
 export type ActionsTypes = AddPostActionType | NewPostActionType | setProfileActionType;

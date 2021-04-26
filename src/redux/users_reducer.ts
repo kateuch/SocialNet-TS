@@ -1,3 +1,5 @@
+import { Dispatch } from "react";
+import { userAPI } from "../components/api/api";
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -16,7 +18,7 @@ let initialState = {
     buttonDisabling: [] as Array<string>
 };
 
-const users_reduser = (state: UsersPageType = initialState, action: ActionsTypes): UsersPageType  => {
+const users_reduser = (state: UsersPageType = initialState, action: ActionsTypes): UsersPageType => {
 
     switch (action.type) {
         case SET_USERS:
@@ -51,53 +53,93 @@ const users_reduser = (state: UsersPageType = initialState, action: ActionsTypes
                 ...state,
                 totalCount: action.totalCount
             };
-            case SET_CUR_PAGE:
-                return {
-                    ...state,
-                    currentPage: action.pageNumber
-                };
-                case SET_INPROGRESS:
-                    return {
-                        ...state,
-                        inProgress: action.inProgress
-                    };
-                    case SET_BTN_DISABLING:
-                    return {
-                        ...state,
-                        buttonDisabling: action.status
-                        ? [...state.buttonDisabling, action.userId ]
-                        : state.buttonDisabling.filter(id => id !== action.userId)
-                    };
+        case SET_CUR_PAGE:
+            return {
+                ...state,
+                currentPage: action.pageNumber
+            };
+        case SET_INPROGRESS:
+            return {
+                ...state,
+                inProgress: action.inProgress
+            };
+        case SET_BTN_DISABLING:
+            return {
+                ...state,
+                buttonDisabling: action.status
+                    ? [...state.buttonDisabling, action.userId]
+                    : state.buttonDisabling.filter(id => id !== action.userId)
+            };
 
         default:
             return state;
     }
 }
 
-export const setUsers = (users: Array<UserType>) => ({ type: SET_USERS, users } as const );
-export const follow = (userID: string) => ({ type: FOLLOW, userID }  as const);
-export const unfollow = (userID: string) => ({ type: UNFOLLOW, userID }  as const);
-export const setTotalCount = (totalCount: number) => ({type: SET_TOTAL_COUNT, totalCount }  as const);
-export const setCurrentPage = (pageNumber: number) => ({type: SET_CUR_PAGE, pageNumber }  as const);
-export const toggleInProgress = (inProgress: boolean) => ({type: SET_INPROGRESS, inProgress }  as const);
-export const toggleButtonDisabling = (status: boolean, userId: string) => ({type: SET_BTN_DISABLING, status, userId }  as const);
+export const setUsers = (users: Array<UserType>) => ({ type: SET_USERS, users } as const);
+export const followSuccess = (userID: string) => ({ type: FOLLOW, userID } as const);
+export const unfollowSuccess = (userID: string) => ({ type: UNFOLLOW, userID } as const);
+export const setTotalCount = (totalCount: number) => ({ type: SET_TOTAL_COUNT, totalCount } as const);
+export const setCurrentPage = (pageNumber: number) => ({ type: SET_CUR_PAGE, pageNumber } as const);
+export const toggleInProgress = (inProgress: boolean) => ({ type: SET_INPROGRESS, inProgress } as const);
+export const toggleButtonDisabling = (status: boolean, userId: string) => ({ type: SET_BTN_DISABLING, status, userId } as const);
+
+export const getUsers = (currentPage: number, pageSize: number) => {
+    //@ts-ignore
+    return (dispatch: Dispatch) => {
+        dispatch(toggleInProgress(true));
+        dispatch(setCurrentPage(currentPage));
+        userAPI.getUsers(currentPage, pageSize).then(data => {
+            dispatch(toggleInProgress(false));
+            dispatch(setUsers(data.items));
+            dispatch(setTotalCount(data.totalCount));
+        }
+        )
+    }
+};
+
+export const unfollow = (userId: string) => {
+    //@ts-ignore
+    return (dispatch: Dispatch) => {
+        dispatch(toggleButtonDisabling(true, userId));
+    userAPI.unfollowUser(userId).then(response => {
+        if (response.data.resultCode === 0) {
+            dispatch(unfollowSuccess(userId));
+        }
+        dispatch(toggleButtonDisabling(false, userId));
+    });
+}
+};
+
+export const follow = (userId: string) => {
+    //@ts-ignore
+    return (dispatch: Dispatch) => {
+        dispatch(toggleButtonDisabling(true, userId));
+    userAPI.followUser(userId).then(response => {
+        if (response.data.resultCode === 0) {
+            dispatch(followSuccess(userId));
+        }
+        dispatch(toggleButtonDisabling(false, userId));
+    });
+}
+};
 
 export default users_reduser;
 
 
 //types
 export type UserType = {
-name: string,
-id: string,
-photoUrl: string,
-followed: boolean,
-fullName: string,
-status: string,
-photos: { small: string | null,  large: string | null }
+    name: string,
+    id: string,
+    photoUrl: string,
+    followed: boolean,
+    fullName: string,
+    status: string,
+    photos: { small: string | null, large: string | null }
 };
 
 export type UsersType = {
-users: Array<UserType>
+    users: Array<UserType>
 };
 
 export type UsersPageType = {
@@ -148,4 +190,4 @@ export type toggleInProgressAC = typeof toggleInProgress
 export type buttonDisablingAC = typeof toggleButtonDisabling
 
 export type ActionsTypes = setUsers | follow | unfollow |
-                            setTotalCount | setCurrentPage | toggleInProgress | toggleButtonDisabling;
+    setTotalCount | setCurrentPage | toggleInProgress | toggleButtonDisabling;

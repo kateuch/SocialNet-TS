@@ -2,19 +2,15 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import Header from './header';
-import {setUser}  from './../../redux/auth_reducer';
+import {authMe}  from './../../redux/auth_reducer';
 import { RootStateType } from '../../redux/redux_store';
-import { getAuthMe } from '../api/api';
-
 
 
 class HeaderContainer extends React.Component<RootPropsType> {
 
     componentDidMount () {
-    		getAuthMe().then(data => {
-                let {id, login, email} = data
-            			this.props.setUser(id, login, email);
-            })}
+            this.props.authMe()
+        }
 
     render () {
         return (
@@ -36,7 +32,7 @@ let mapStateToProps = (state: RootStateType): MapStateType => {
 }
 
 
-export default connect(mapStateToProps, {setUser} )(HeaderContainer);
+export default connect(mapStateToProps, {authMe} )(HeaderContainer);
 
 //types
 
@@ -48,7 +44,7 @@ type MapStateType = {
 }
 
 type MapDispatchPropsType = {
-    setUser: (id: number, login: string, email: string ) => void
+    authMe: any
 };
 
 type RootPropsType = MapStateType & MapDispatchPropsType

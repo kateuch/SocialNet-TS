@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { DialogsPageType } from '../../redux/dialog_reducer';
+import Login from '../login/login';
 
 import style from './dialogs.module.css';
 import DialogItem from './dialogsItem/dialogsItem';
@@ -9,7 +10,8 @@ import MessageItem from './messageItem/messageItem';
 type PropsType = {
     dialogsPage: DialogsPageType,
     addMessage: () => void,
-    newMessage: (text: string) => void
+    newMessage: (text: string) => void,
+    isAuth: boolean
 }
 
 export default function Dialogs(props: PropsType) {
@@ -27,7 +29,9 @@ export default function Dialogs(props: PropsType) {
         let message = e.currentTarget?.value;
         props.newMessage(message);
         //e.currentTarget!.value = props.dialogsPage.newMessage
-    }}
+    }};
+
+    if (!props.isAuth) return <Login/>
 
     return (
         <div className={style.dialogs}>
